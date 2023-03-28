@@ -2,6 +2,8 @@
 title: "Portfolio"
 ---
 
-Hi there this is my portfolio page! Yay...
-  
-Here's another line for good measure.
+# My Work
+
+## Afghanistan Media Critique
+
+This [story](https://www.mediafiledc.com/media-portrays-u-s-military-as-savior-of-afghan-women/) from Media File DC interviews various academics in a discussion about the portrayal of Afghan women in mainstream Western media.
