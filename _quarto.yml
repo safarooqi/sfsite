@@ -8,12 +8,13 @@ website:
     right: 
       - icon: github
         href: https://github.com/
-  title: "Aaron's Website"
+  title: "Samiha's Website"
   navbar:
     left:
       - href: index.qmd
         text: Home
-      - about.qmd
+      - href: about.qmd
+        text: About me
       - portfolio.qmd
       - walkthrough.qmd
       
@@ -21,7 +22,7 @@ website:
 
 format:
   html:
-    theme: cosmo
+    theme: lux
     css: styles.css
     toc: true
 

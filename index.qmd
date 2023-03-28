@@ -1,31 +1,18 @@
 ---
-title: "Aaron M. Kessler"
+title: "Samiha Farooqi"
 about:
   template: jolla
-  image: testimage.jpg
+  image: 682.JPG
   links:
     - icon: twitter
       text: twitter
-      href: https://twitter.com/akesslerdc
+      href: https://twitter.com/notsamiha
     - icon: github
       text: Github
-      href: https://github.com/amkessler
+      href: https://github.com/safarooqi
 ---
 
-Hi, I'm Aaron and I'm a reporter at the AP in Washington. I like data, the ocean and F1 racing. I've got two little ones and enjoy watching them grow up.
+Hi, I'm Samiha and I'm currently a history and data science student at the George Washington university 
 
-## Education
 
-University of Missouri tktktktk
-
-Columbia University
-
-Washington University in St. Louis
-
-## Skills
-
-Reporting and Writing
-
-Data Analysis
-
-FOIA laws
+ 
