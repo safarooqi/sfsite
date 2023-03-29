@@ -2,8 +2,10 @@
 title: "Portfolio"
 ---
 
-# My Work
+## MediaFile Articles
 
-## Afghanistan Media Critique
+While at MediaFileDC, a student run online news source, I spoke to various academics and experts while covering stories on the international beat. My [stories](https://www.mediafiledc.com/author/sfarooqi/) ranged from the Western media coverage of Afghan women, to the media scrutiny Meghan Markle faced from the UK press.
 
-This [story](https://www.mediafiledc.com/media-portrays-u-s-military-as-savior-of-afghan-women/) from Media File DC interviews various academics in a discussion about the portrayal of Afghan women in mainstream Western media.
+## GW Hatchet Articles 
+
+At The Hatchet, I covered two [stories](https://www.gwhatchet.com/author/samiha-farooqi/) on campus involving the implentation of GW's u-pass program, and the student and university responses to an assault, interviewing several students in the process.

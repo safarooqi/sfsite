@@ -11,14 +11,14 @@
     "href": "index.html",
     "title": "Samiha Farooqi",
     "section": "",
-    "text": "Hi, I’m Samiha and I’m currently a history and data science student at the George Washington University."
+    "text": "Hi, I’m Samiha and I’m currently a history and data science student at the George Washington University"
   },
   {
     "objectID": "portfolio.html",
     "href": "portfolio.html",
     "title": "Portfolio",
     "section": "",
-    "text": "Hi there this is my portfolio page! Yay…\nHere’s another line for good measure."
+    "text": "While at MediaFileDC, a student run online news source, I spoke to various academics and experts while covering stories on the international beat. My stories ranged from the Western media coverage of Afghan women, to the media scrutiny Meghan Markle faced from the UK press."
   },
   {
     "objectID": "about.html",
@@ -26,5 +26,12 @@
     "title": "More Stuff About Me",
     "section": "",
     "text": "About this site\nHere is some new stuff!\n\n1 + 1 \n\n[1] 2"
+  },
+  {
+    "objectID": "portfolio.html#gw-hatchet-articles",
+    "href": "portfolio.html#gw-hatchet-articles",
+    "title": "Portfolio",
+    "section": "GW Hatchet Articles",
+    "text": "GW Hatchet Articles\nAt The Hatchet, I covered two stories on campus involving the implentation of GW’s u-pass program, and the student and university responses to an assault, interviewing several students in the process."
   }
 ]
