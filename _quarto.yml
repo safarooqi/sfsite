@@ -15,8 +15,12 @@ website:
         text: Home
       - href: about.qmd
         text: About 
-      - portfolio.qmd
-      - walkthrough.qmd
+      - href: map.qmd
+        text: R Walkthrough
+      - href: portfolio.qmd
+        text: Articles
+      - href: walkthrough.qmd
+        text: Writings
       
 
 

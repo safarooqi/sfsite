@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.335">
+<meta name="generator" content="quarto-1.2.475">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Samiha Farooqi">
 
-<title>Samiha’s Website - Analysis Walkthrough Example</title>
+<title>Samiha’s Website - A Sample Essay</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -4015,12 +4015,16 @@ vertical-align: -.125em;
  <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="./map.html">
+ <span class="menu-text">R Walkthrough</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="./portfolio.html">
- <span class="menu-text">Portfolio</span></a>
+ <span class="menu-text">Articles</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="./walkthrough.html" aria-current="page">
- <span class="menu-text">Analysis Walkthrough Example</span></a>
+ <span class="menu-text">Writings</span></a>
   </li>  
 </ul>
               <div id="quarto-search" class title="Search"></div>
@@ -4037,7 +4041,7 @@ vertical-align: -.125em;
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#tables" id="toc-tables" class="nav-link active" data-scroll-target="#tables">TABLES</a></li>
+  <li><a href="#privatize-or-perish-the-imfs-guide-to-devastating-an-international-economy" id="toc-privatize-or-perish-the-imfs-guide-to-devastating-an-international-economy" class="nav-link active" data-scroll-target="#privatize-or-perish-the-imfs-guide-to-devastating-an-international-economy">Privatize or Perish: The IMF’s Guide to Devastating an International Economy</a></li>
   </ul>
 </nav>
     </div>
@@ -4046,7 +4050,7 @@ vertical-align: -.125em;
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">Analysis Walkthrough Example</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+<div class="quarto-title-block"><div><h1 class="title">A Sample Essay</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
 
 
@@ -4067,208 +4071,12 @@ vertical-align: -.125em;
 
 </header>
 
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>impeach <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;impeach.rds&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<section id="tables" class="level3">
-<h3 class="anchored" data-anchor-id="tables">TABLES</h3>
-<p>Displaying how many members in the dataset favor impeachment vs. not</p>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>impeach <span class="sc">%&gt;%</span> </span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(for_impeachment) <span class="sc">%&gt;%</span> </span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">for_impeach_count =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2 × 2
-  for_impeachment for_impeach_count
-  &lt;chr&gt;                       &lt;int&gt;
-1 NO                             26
-2 YES                           209</code></pre>
-</div>
-</div>
-<p>Now using grouping to now break down the Democratic House members by TWO measures: those who are for or against impeachment (as you did above)….and then districts above/below national GDP.</p>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>impeach <span class="sc">%&gt;%</span> </span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(for_impeachment, gdp_above_national) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">for_impeach_count =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>`summarise()` has grouped output by &#39;for_impeachment&#39;. You can override using
-the `.groups` argument.</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 4 × 3
-# Groups:   for_impeachment [2]
-  for_impeachment gdp_above_national for_impeach_count
-  &lt;chr&gt;           &lt;chr&gt;                          &lt;int&gt;
-1 NO              ABOVE                              7
-2 NO              BELOW                             19
-3 YES             ABOVE                            126
-4 YES             BELOW                             83</code></pre>
-</div>
-</div>
-<p>Now nstead of GDP, grouping by whether the district is above or below the national average for the percentage of college graduates.</p>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>impeach <span class="sc">%&gt;%</span> </span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(for_impeachment, pct_bachelors_compared_to_national) <span class="sc">%&gt;%</span> </span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">impeach_count =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>`summarise()` has grouped output by &#39;for_impeachment&#39;. You can override using
-the `.groups` argument.</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 4 × 3
-# Groups:   for_impeachment [2]
-  for_impeachment pct_bachelors_compared_to_national impeach_count
-  &lt;chr&gt;           &lt;chr&gt;                                      &lt;int&gt;
-1 NO              ABOVE                                          7
-2 NO              BELOW                                         19
-3 YES             ABOVE                                        128
-4 YES             BELOW                                         81</code></pre>
-</div>
-</div>
-<p>Here I’m summarizing by the mean percentage of college grads for districts that are Yes for impeachment vs. No. </p>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>impeach <span class="sc">%&gt;%</span> </span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(for_impeachment) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">impeach_count =</span> <span class="fu">n</span>(), </span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_pct_grad =</span> <span class="fu">mean</span>(pct_bachelors, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2 × 3
-  for_impeachment impeach_count mean_pct_grad
-  &lt;chr&gt;                   &lt;int&gt;         &lt;dbl&gt;
-1 NO                         26          27.7
-2 YES                       209          33.7</code></pre>
-</div>
-</div>
-<p>Now showing the <em>percentage of the vote that Donald Trump received</em> for districts that are Yes for impeachment vs. No. </p>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>impeach <span class="sc">%&gt;%</span> </span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(for_impeachment) <span class="sc">%&gt;%</span> </span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">impeach_count =</span> <span class="fu">n</span>(), </span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_trump_pct =</span> <span class="fu">mean</span>(trump_percent, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2 × 3
-  for_impeachment impeach_count mean_trump_pct
-  &lt;chr&gt;                   &lt;int&gt;          &lt;dbl&gt;
-1 NO                         26           43.8
-2 YES                       209           32.0</code></pre>
-</div>
-</div>
-<p>Filtering out only the members who are a yes for impeachment. Also showing how many of those who voted yes won their 2018 election by less than 5 percentage points (<code>margin_flag_2018</code>) vs. more?</p>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>  impeach <span class="sc">%&gt;%</span> </span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(for_impeachment <span class="sc">==</span> <span class="st">&quot;YES&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(margin_flag_2018) <span class="sc">%&gt;%</span> </span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">yes_impeach_count =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2 × 2
-  margin_flag_2018   yes_impeach_count
-  &lt;chr&gt;                          &lt;int&gt;
-1 5_points_or_less                  17
-2 more_than_5_points               192</code></pre>
-</div>
-</div>
-<p>Testing how median income of a district, and if it is above or below the national average, effects whether or not a House member voted yes or no by taking the mean of median income above or below the average.</p>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>impeach <span class="sc">%&gt;%</span> </span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(for_impeachment, median_age_compared_to_national) <span class="sc">%&gt;%</span> </span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">impeach_count =</span> <span class="fu">n</span>(), </span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_income =</span> <span class="fu">mean</span>(median_income, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>`summarise()` has grouped output by &#39;for_impeachment&#39;. You can override using
-the `.groups` argument.</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 4 × 4
-# Groups:   for_impeachment [2]
-  for_impeachment median_age_compared_to_national impeach_count mean_income
-  &lt;chr&gt;           &lt;chr&gt;                                   &lt;int&gt;       &lt;dbl&gt;
-1 NO              ABOVE                                      13      59110.
-2 NO              BELOW                                      13      48313.
-3 YES             ABOVE                                      96      68903.
-4 YES             BELOW                                     113      56333.</code></pre>
-</div>
-</div>
-<p>Using the mutate() function to create two new columns: one that extracts the year from date_announced, and a second that extracts the month.</p>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>impeach <span class="sc">%&gt;%</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">year</span>(date_announced),</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">month =</span> <span class="fu">month</span>(date_announced))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 235 × 28
-   for_impeachm…¹ last_…² first…³ middl…⁴ party state distr…⁵ date_ann…⁶ margi…⁷
-   &lt;chr&gt;          &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;date&gt;     &lt;chr&gt;  
- 1 YES            Adams   Alma    &lt;NA&gt;    D     NC    12      2019-05-31 more_t…
- 2 YES            Aguilar Pete    &lt;NA&gt;    D     CA    31      2019-08-01 more_t…
- 3 NO             Allred  Colin   &lt;NA&gt;    D     TX    32      NA         more_t…
- 4 YES            Axne    Cynthia &lt;NA&gt;    D     IA    3       2019-09-24 5_poin…
- 5 YES            Barrag… Nanette &lt;NA&gt;    D     CA    44      2019-06-01 more_t…
- 6 YES            Bass    Karen   &lt;NA&gt;    D     CA    37      2019-09-24 more_t…
- 7 YES            Beatty  Joyce   &lt;NA&gt;    D     OH    3       2019-05-31 more_t…
- 8 YES            Bera    Ami     &lt;NA&gt;    D     CA    7       2019-09-24 more_t…
- 9 YES            Beyer   Donald  &lt;NA&gt;    D     VA    8       2019-05-01 more_t…
-10 YES            Bishop  Sanford D.      D     GA    2       2019-09-24 more_t…
-# … with 225 more rows, 19 more variables: flip_2018 &lt;chr&gt;, house_dist &lt;chr&gt;,
-#   keyrace_rating &lt;chr&gt;, median_income &lt;dbl&gt;,
-#   median_income_compared_to_national &lt;chr&gt;, median_age &lt;dbl&gt;,
-#   median_age_compared_to_national &lt;chr&gt;, pct_nonwhite &lt;dbl&gt;,
-#   pct_nonwhite_compared_to_national &lt;chr&gt;, pct_bachelors &lt;dbl&gt;,
-#   pct_bachelors_compared_to_national &lt;chr&gt;, rural_pop_above20pct &lt;chr&gt;,
-#   gdp_above_national &lt;chr&gt;, clinton_percent &lt;dbl&gt;, trump_percent &lt;dbl&gt;, …</code></pre>
-</div>
-</div>
-<p>Using the new columns to then use grouping to count up how many House Democrats during each month announced their support of impeachment.</p>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>impeach <span class="sc">%&gt;%</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">year</span>(date_announced),</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">month =</span> <span class="fu">month</span>(date_announced)) <span class="sc">%&gt;%</span> </span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(for_impeachment <span class="sc">==</span> <span class="st">&quot;YES&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month) <span class="sc">%&gt;%</span></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">impeach_count =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 9 × 2
-  month impeach_count
-  &lt;dbl&gt;         &lt;int&gt;
-1     1             3
-2     4             7
-3     5            39
-4     6            27
-5     7            33
-6     8            18
-7     9            76
-8    11             2
-9    12             4</code></pre>
-</div>
-</div>
+<section id="privatize-or-perish-the-imfs-guide-to-devastating-an-international-economy" class="level1">
+<h1>Privatize or Perish: The IMF’s Guide to Devastating an International Economy</h1>
+<p>When an economic crisis emerges anywhere across the globe, it&#39;s only natural for the IMF, or International Monetary Fund, to step in. That is their intended purpose—to provide temporary financial assistance when needed, and promote economic growth and stability. However, by the time the East Asian regional financial crisis broke out in the 1990s, there was already doubt amongst East Asian leaders that the neoliberal policies the IMF are known to impose would be the cure needed to fix their economic ails. This is a problem, to say the least. Due to the policy conditions included in IMF bailout packages, trust in Western dominated, global financial institutions has been embarrassingly low—to the point that countries actively avoid turning to them in times of crisis. To add insult to injury, China and India—two of the only countries that have seen substantial economic growth in the last few decades—were able to avoid the same crisis as many of their neighbors in the 90s by doing exactly what the IMF warned not to do: imposing capital controls, and disregarding the Washington Consensus. This lack of faith in global financial institutions, coupled with the IMF&#39;s outright failure to adequately address economic crises, has contributed to an environment in which economic growth, worldwide, has stagnated. And unless the IMF finally chooses reality over ideology by focusing on restoring confidence in the system, economic growth will only continue to elude us all.</p>
+<p>As Joseph Stiglitz recalls in his book, Globalization and its Discontents, leaders of the affected East Asian tigers &quot;feared&quot; that IMF policies would not allow them the room to properly manage their respective crises. However, they knew if they did not cooperate, the IMF would publicly &quot;condemn&quot; them, leading to a further withdrawal of international capital, and thus exacerbating the problem at hand. What Stiglitz points out is that these countries were, unfortunately, correct in their worries. Thailand, for example, followed the IMF&#39;s instructions to a T. They would soon wish they hadn&#39;t. Several years after the crisis began, Thailand had yet to see recovery—its economy was still in a recession, and its GDP was more than two percent lower than it had been prior to the crisis. At the same time, Malaysia and China were doing far better. Malaysia did not take part in any IMF program at all, despite the criticism this drew them. They handled the crisis on their own, and as a result, were able to recover much faster. Moreover, China did the exact opposite of everything the IMF said to do, allowing them to avoid the crisis completely. These kinds of results do not exactly inspire confidence in the IMF. But rather than admitting to any wrongdoing, they continue to push neoliberal monetary policies to this day.</p>
+<p>The idea that the IMF is more concerned with bailing out investors rather than the people almost seems contradictory. One may be inclined to believe that no matter the amount of foreign aid bailouts, an economy can&#39;t truly recover without trust from the public. Be that as it may, the IMF cares little for its policies impact on people, considering the wealth will (probably) trickle down anyway. The resulting socio-political impact of their legacy, in East Asia and worldwide, is profound. Predictably, crushingly austere monetary policies that come along with their aid packages have a tendency to build resentment amongst the affected populations. With such disdain towards the IMF, countries are forced to try and accumulate as many dollars in their central bank as possible in an effort to prepare for a future economic crisis all on their own—subsequently delegitimizing the IMF as a genuinely internationalist institution, and actually leaving the market worse off due to this massive glut of dollars. With this in mind, it&#39;s vital to confront the question of who, exactly, the IMF helps—if not the people in the affected countries, or even the countries&#39; economies and governments, for whom does a bailout actually serve to benefit?</p>
+<p>Since the 1980s, economic growth has come to a slowdown around the world. Gone are the golden days of high growth, high wages, and high benefits that the Bretton Woods system delivered. Instead, nations around the globe—save for China and India—have been forced to reckon with stagflation, recession, and even outright depression. Post war institutions such as the IMF were once envisioned to be the solution to this sort of problem. However, over the last half century, it has been made abundantly clear who the IMF&#39;s bailout strategy seeks to protect more than anyone else: investors. Consequently, as Stiglitz points out, this has led the institution to forgetting about the people &quot;in the countries it was supposed to be helping,&quot; and losing &quot;sight of its original mission.&quot; This has had a dire effect on economic growth. By choosing to focus on investors over people, trust in the IMF is virtually nonexistent—and that has severe impacts on global economic and political relations. Growth cannot be expected to come if no one has faith in their political and economic institutions. By and large, the IMF is a Western dominated institution that serves mainly to impose their Washington Consensus—neoliberal policies—without regard for nuance or people. If they actually sought to build up trust in economies within countries that are in need of aid, perhaps they may be able to salvage some sort of political legitimacy outside the United States and its allies. Unfortunately, that is unlikely to happen, leaving many countries in need with one of two options: privatize or perish.  </p>
 
 
 <!-- -->
@@ -4460,140 +4268,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class>
-<div class="sourceCode" id="cb23" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> &quot;Analysis Walkthrough Example&quot;</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> &quot;Samiha Farooqi&quot;</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co">    self-contained: true</span></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: true</span></span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="in">```{r setup, include=FALSE}</span></span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">echo =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the packages we&#39;ll need</span></span>
-<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
-<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(writexl)</span>
-<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
-<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a>impeach <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;impeach.rds&quot;</span>)</span>
-<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a><span class="fu">### TABLES</span></span>
-<span id="cb23-35"><a href="#cb23-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-36"><a href="#cb23-36" aria-hidden="true" tabindex="-1"></a>Displaying how many members in the dataset favor impeachment vs. not </span>
-<span id="cb23-37"><a href="#cb23-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-40"><a href="#cb23-40" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb23-41"><a href="#cb23-41" aria-hidden="true" tabindex="-1"></a>impeach <span class="sc">%&gt;%</span> </span>
-<span id="cb23-42"><a href="#cb23-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(for_impeachment) <span class="sc">%&gt;%</span> </span>
-<span id="cb23-43"><a href="#cb23-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">for_impeach_count =</span> <span class="fu">n</span>())</span>
-<span id="cb23-44"><a href="#cb23-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-45"><a href="#cb23-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-46"><a href="#cb23-46" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb23-47"><a href="#cb23-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-48"><a href="#cb23-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-49"><a href="#cb23-49" aria-hidden="true" tabindex="-1"></a>Now using grouping to now break down the Democratic House members by TWO measures: those who are for or against impeachment (as you did above)....and then districts above/below national GDP.  </span>
-<span id="cb23-50"><a href="#cb23-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-53"><a href="#cb23-53" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb23-54"><a href="#cb23-54" aria-hidden="true" tabindex="-1"></a>impeach <span class="sc">%&gt;%</span> </span>
-<span id="cb23-55"><a href="#cb23-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(for_impeachment, gdp_above_national) <span class="sc">%&gt;%</span> </span>
-<span id="cb23-56"><a href="#cb23-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">for_impeach_count =</span> <span class="fu">n</span>())</span>
-<span id="cb23-57"><a href="#cb23-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-58"><a href="#cb23-58" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb23-59"><a href="#cb23-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-60"><a href="#cb23-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-61"><a href="#cb23-61" aria-hidden="true" tabindex="-1"></a>Now nstead of GDP, grouping by whether the district is above or below the national average for the percentage of college graduates. </span>
-<span id="cb23-62"><a href="#cb23-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-65"><a href="#cb23-65" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb23-66"><a href="#cb23-66" aria-hidden="true" tabindex="-1"></a>impeach <span class="sc">%&gt;%</span> </span>
-<span id="cb23-67"><a href="#cb23-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(for_impeachment, pct_bachelors_compared_to_national) <span class="sc">%&gt;%</span> </span>
-<span id="cb23-68"><a href="#cb23-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">impeach_count =</span> <span class="fu">n</span>())</span>
-<span id="cb23-69"><a href="#cb23-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-70"><a href="#cb23-70" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb23-71"><a href="#cb23-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-72"><a href="#cb23-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-73"><a href="#cb23-73" aria-hidden="true" tabindex="-1"></a>Here I&#39;m summarizing by the mean percentage of college grads for districts that are Yes for impeachment vs. No.  </span>
-<span id="cb23-74"><a href="#cb23-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-77"><a href="#cb23-77" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb23-78"><a href="#cb23-78" aria-hidden="true" tabindex="-1"></a>impeach <span class="sc">%&gt;%</span> </span>
-<span id="cb23-79"><a href="#cb23-79" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(for_impeachment) <span class="sc">%&gt;%</span> </span>
-<span id="cb23-80"><a href="#cb23-80" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">impeach_count =</span> <span class="fu">n</span>(), </span>
-<span id="cb23-81"><a href="#cb23-81" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_pct_grad =</span> <span class="fu">mean</span>(pct_bachelors, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb23-82"><a href="#cb23-82" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-83"><a href="#cb23-83" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-84"><a href="#cb23-84" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb23-85"><a href="#cb23-85" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-86"><a href="#cb23-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-87"><a href="#cb23-87" aria-hidden="true" tabindex="-1"></a>Now showing the *percentage of the vote that Donald Trump received* for districts that are Yes for impeachment vs. No.  </span>
-<span id="cb23-88"><a href="#cb23-88" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-91"><a href="#cb23-91" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb23-92"><a href="#cb23-92" aria-hidden="true" tabindex="-1"></a>impeach <span class="sc">%&gt;%</span> </span>
-<span id="cb23-93"><a href="#cb23-93" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(for_impeachment) <span class="sc">%&gt;%</span> </span>
-<span id="cb23-94"><a href="#cb23-94" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">impeach_count =</span> <span class="fu">n</span>(), </span>
-<span id="cb23-95"><a href="#cb23-95" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_trump_pct =</span> <span class="fu">mean</span>(trump_percent, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb23-96"><a href="#cb23-96" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-97"><a href="#cb23-97" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-98"><a href="#cb23-98" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb23-99"><a href="#cb23-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-100"><a href="#cb23-100" aria-hidden="true" tabindex="-1"></a>Filtering out only the members who are a yes for impeachment. Also showing how many of those who voted yes won their 2018 election by less than 5 percentage points (<span class="in">`margin_flag_2018`</span>) vs. more? </span>
-<span id="cb23-101"><a href="#cb23-101" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-104"><a href="#cb23-104" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb23-105"><a href="#cb23-105" aria-hidden="true" tabindex="-1"></a>  impeach <span class="sc">%&gt;%</span> </span>
-<span id="cb23-106"><a href="#cb23-106" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(for_impeachment <span class="sc">==</span> <span class="st">&quot;YES&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb23-107"><a href="#cb23-107" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(margin_flag_2018) <span class="sc">%&gt;%</span> </span>
-<span id="cb23-108"><a href="#cb23-108" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">yes_impeach_count =</span> <span class="fu">n</span>())</span>
-<span id="cb23-109"><a href="#cb23-109" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-110"><a href="#cb23-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-111"><a href="#cb23-111" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb23-112"><a href="#cb23-112" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-113"><a href="#cb23-113" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-114"><a href="#cb23-114" aria-hidden="true" tabindex="-1"></a>Testing how median income of a district, and if it is above or below the national average, effects whether or not a House member voted yes or no by taking the mean of median income above or below the average.</span>
-<span id="cb23-115"><a href="#cb23-115" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-118"><a href="#cb23-118" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb23-119"><a href="#cb23-119" aria-hidden="true" tabindex="-1"></a>impeach <span class="sc">%&gt;%</span> </span>
-<span id="cb23-120"><a href="#cb23-120" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(for_impeachment, median_age_compared_to_national) <span class="sc">%&gt;%</span> </span>
-<span id="cb23-121"><a href="#cb23-121" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">impeach_count =</span> <span class="fu">n</span>(), </span>
-<span id="cb23-122"><a href="#cb23-122" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_income =</span> <span class="fu">mean</span>(median_income, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb23-123"><a href="#cb23-123" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-124"><a href="#cb23-124" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-125"><a href="#cb23-125" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb23-126"><a href="#cb23-126" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-127"><a href="#cb23-127" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-128"><a href="#cb23-128" aria-hidden="true" tabindex="-1"></a>Using the mutate() function to create two new columns: one that extracts the year from date_announced, and a second that extracts the month.</span>
-<span id="cb23-129"><a href="#cb23-129" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-132"><a href="#cb23-132" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb23-133"><a href="#cb23-133" aria-hidden="true" tabindex="-1"></a>impeach <span class="sc">%&gt;%</span></span>
-<span id="cb23-134"><a href="#cb23-134" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">year</span>(date_announced),</span>
-<span id="cb23-135"><a href="#cb23-135" aria-hidden="true" tabindex="-1"></a>         <span class="at">month =</span> <span class="fu">month</span>(date_announced))</span>
-<span id="cb23-136"><a href="#cb23-136" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-137"><a href="#cb23-137" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb23-138"><a href="#cb23-138" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-139"><a href="#cb23-139" aria-hidden="true" tabindex="-1"></a>Using the new columns to then use grouping to count up how many House Democrats during each month announced their support of impeachment.</span>
-<span id="cb23-140"><a href="#cb23-140" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-143"><a href="#cb23-143" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb23-144"><a href="#cb23-144" aria-hidden="true" tabindex="-1"></a>impeach <span class="sc">%&gt;%</span></span>
-<span id="cb23-145"><a href="#cb23-145" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">year</span>(date_announced),</span>
-<span id="cb23-146"><a href="#cb23-146" aria-hidden="true" tabindex="-1"></a>         <span class="at">month =</span> <span class="fu">month</span>(date_announced)) <span class="sc">%&gt;%</span> </span>
-<span id="cb23-147"><a href="#cb23-147" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(for_impeachment <span class="sc">==</span> <span class="st">&quot;YES&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb23-148"><a href="#cb23-148" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month) <span class="sc">%&gt;%</span></span>
-<span id="cb23-149"><a href="#cb23-149" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">impeach_count =</span> <span class="fu">n</span>())</span>
-<span id="cb23-150"><a href="#cb23-150" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-151"><a href="#cb23-151" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb23-152"><a href="#cb23-152" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-153"><a href="#cb23-153" aria-hidden="true" tabindex="-1"></a></span>
-</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> &quot;A Sample Essay&quot;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> &quot;Samiha Farooqi&quot;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">    self-contained: true</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: true</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu"># Privatize or Perish: The IMF&#39;s Guide to Devastating an International Economy</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>When an economic crisis emerges anywhere across the globe, it\&#39;s only natural for the IMF, or International Monetary Fund, to step in. That is their intended purpose---to provide temporary financial assistance when needed, and promote economic growth and stability. However, by the time the East Asian regional financial crisis broke out in the 1990s, there was already doubt amongst East Asian leaders that the neoliberal policies the IMF are known to impose would be the cure needed to fix their economic ails. This is a problem, to say the least. Due to the policy conditions included in IMF bailout packages, trust in Western dominated, global financial institutions has been embarrassingly low---to the point that countries actively avoid turning to them in times of crisis. To add insult to injury, China and India---two of the only countries that have seen substantial economic growth in the last few decades---were able to avoid the same crisis as many of their neighbors in the 90s by doing exactly what the IMF warned not to do: imposing capital controls, and disregarding the Washington Consensus. This lack of faith in global financial institutions, coupled with the IMF\&#39;s outright failure to adequately address economic crises, has contributed to an environment in which economic growth, worldwide, has stagnated. And unless the IMF finally chooses reality over ideology by focusing on restoring confidence in the system, economic growth will only continue to elude us all.</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>As Joseph Stiglitz recalls in his book, Globalization and its Discontents, leaders of the affected East Asian tigers \&quot;feared\&quot; that IMF policies would not allow them the room to properly manage their respective crises. However, they knew if they did not cooperate, the IMF would publicly \&quot;condemn\&quot; them, leading to a further withdrawal of international capital, and thus exacerbating the problem at hand. What Stiglitz points out is that these countries were, unfortunately, correct in their worries. Thailand, for example, followed the IMF\&#39;s instructions to a T. They would soon wish they hadn\&#39;t. Several years after the crisis began, Thailand had yet to see recovery---its economy was still in a recession, and its GDP was more than two percent lower than it had been prior to the crisis. At the same time, Malaysia and China were doing far better. Malaysia did not take part in any IMF program at all, despite the criticism this drew them. They handled the crisis on their own, and as a result, were able to recover much faster. Moreover, China did the exact opposite of everything the IMF said to do, allowing them to avoid the crisis completely. These kinds of results do not exactly inspire confidence in the IMF. But rather than admitting to any wrongdoing, they continue to push neoliberal monetary policies to this day.</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>The idea that the IMF is more concerned with bailing out investors rather than the people almost seems contradictory. One may be inclined to believe that no matter the amount of foreign aid bailouts, an economy can\&#39;t truly recover without trust from the public. Be that as it may, the IMF cares little for its policies impact on people, considering the wealth will (probably) trickle down anyway. The resulting socio-political impact of their legacy, in East Asia and worldwide, is profound. Predictably, crushingly austere monetary policies that come along with their aid packages have a tendency to build resentment amongst the affected populations. With such disdain towards the IMF, countries are forced to try and accumulate as many dollars in their central bank as possible in an effort to prepare for a future economic crisis all on their own---subsequently delegitimizing the IMF as a genuinely internationalist institution, and actually leaving the market worse off due to this massive glut of dollars. With this in mind, it\&#39;s vital to confront the question of who, exactly, the IMF helps---if not the people in the affected countries, or even the countries\&#39; economies and governments, for whom does a bailout actually serve to benefit?</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>Since the 1980s, economic growth has come to a slowdown around the world. Gone are the golden days of high growth, high wages, and high benefits that the Bretton Woods system delivered. Instead, nations around the globe---save for China and India---have been forced to reckon with stagflation, recession, and even outright depression. Post war institutions such as the IMF were once envisioned to be the solution to this sort of problem. However, over the last half century, it has been made abundantly clear who the IMF\&#39;s bailout strategy seeks to protect more than anyone else: investors. Consequently, as Stiglitz points out, this has led the institution to forgetting about the people \&quot;in the countries it was supposed to be helping,\&quot; and losing \&quot;sight of its original mission.\&quot; This has had a dire effect on economic growth. By choosing to focus on investors over people, trust in the IMF is virtually nonexistent---and that has severe impacts on global economic and political relations. Growth cannot be expected to come if no one has faith in their political and economic institutions. By and large, the IMF is a Western dominated institution that serves mainly to impose their Washington Consensus---neoliberal policies---without regard for nuance or people. If they actually sought to build up trust in economies within countries that are in need of aid, perhaps they may be able to salvage some sort of political legitimacy outside the United States and its allies. Unfortunately, that is unlikely to happen, leaving many countries in need with one of two options: privatize or perish.  </span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="in">    </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">
