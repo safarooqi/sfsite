@@ -1,9 +1,11 @@
 ---
-title: "map"
+title: "R Visualization Walkthrough"
 editor: visual
 ---
 
-## Here I will be taking you through how I am creating an interactive map displaying the median income in Massachusetts, using census data.
+## Creating a Map in R
+
+**Here I will be taking you through how I am creating an interactive map displaying the median income in Massachusetts, using census data.**
 
 ```{r}
 
@@ -24,7 +26,9 @@ options(tigris_class = "sf")
 
 ```
 
-## First, I will be coding a few variables of interest. We will be specifically analyzing the median income variable.
+## Step #1
+
+**First, I will be coding a few variables of interest. We will be specifically analyzing the median income variable.**
 
 ```{r}
 myvars <- c(totalpop = "B01003_001",
@@ -33,7 +37,9 @@ myvars <- c(totalpop = "B01003_001",
 )
 ```
 
-## Then, I will retrieve the data from the American Community Survey feature, using tidycensus in R.
+## Step #2
+
+**Then, I will retrieve the data from the American Community Survey feature, using tidycensus in R.**
 
 ```{r}
 ma_counties_withgeo <- get_acs(geography = "county",
@@ -45,7 +51,9 @@ ma_counties_withgeo <- get_acs(geography = "county",
 ma_counties_withgeo
 ```
 
-## Now I'll just clean up the data a bit and get it prepped for the map.
+## Step #3
+
+**Now I'll just clean up the data a bit and get it prepped for the map.**
 
 ```{r}
 ma_counties_withgeo <- ma_counties_withgeo %>%
@@ -58,7 +66,9 @@ colnames(ma_counties_withgeo) <- sub("E$", "", colnames(ma_counties_withgeo))
 
 ```
 
-## And behold! Using mapview, below I can display an interactive map displaying the median income for each county in the state of Massachusetts.
+## Step #4
+
+**And behold! Using mapview, below I can display an interactive map displaying the median income for each county in the state of Massachusetts.**
 
 ```{r}
 mapview(ma_counties_withgeo, zcol = "medincome", 
@@ -74,7 +84,9 @@ mypopup <- glue::glue("<strong>{ma_counties_withgeo$NAM}</strong><br />
 
 ```
 
-## Here is a cleaned up version of the map the utilizes a pop-up.
+## Step #5
+
+**Here is a cleaned up version of the map the utilizes a pop-up.**
 
 ```{r}
 mapview(ma_counties_withgeo, zcol = "medincome", 
