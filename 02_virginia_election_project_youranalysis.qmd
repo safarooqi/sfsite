@@ -1,0 +1,138 @@
+---
+title: "Virginia Election Project"
+author: "putyournamehere"
+execute:
+  echo: true
+format:
+  html:
+    self-contained: true
+    code-tools: true
+---
+
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+
+
+library(tigris)
+library(sf)
+library(tidycensus)
+library(htmltools)
+library(janitor)
+library(here)
+library(mapview)
+library(leafsync)
+library(leaflet.extras2)
+options(tigris_class = "sf")
+library(tidyverse)
+library(janitor)
+library(kableExtra)
+library(here)
+library(DT)
+library(scales)
+library(viridis)
+library(ggthemes)
+library(htmlwidgets)
+library(htmltools)
+options(scipen = 999)
+options(stringsAsFactors = FALSE)
+
+
+#load saved joined data file from previous script
+joined_vacomparison <- readRDS(here("processed_data", "joined_vacomparison.rds"))
+
+saveRDS(joined_vacomparison, here("processed_data", "joined_vacomparison.rds"))
+write_csv(joined_vacomparison, here("processed_data", "joined_vacomparison.csv"))
+
+```
+
+
+# Comparing Virgnia Gov vs. Prez
+
+
+
+```{r}
+
+head(joined_vacomparison)
+
+
+```
+
+
+```{r}
+
+va_count_geo <- tigris::counties(state = "VA", resolution = "20m", cb = TRUE)
+
+va_count_geo$NAMELSAD <- toupper(va_count_geo$NAMELSAD)
+
+va_elect_sf <- va_count_geo %>% 
+  left_join(. , joined_vacomparison, by=c("NAMELSAD"="locality"))
+
+```
+
+
+```{r}
+
+mypopup <- glue::glue("<strong>{va_elect_sf$NAME}</strong><br />
+                      Biden Pct: {va_elect_sf$biden_pct}<br />") %>% 
+  lapply(htmltools::HTML)
+
+```
+
+
+```{r}
+
+mapview(va_elect_sf, zcol = "biden_pct", 
+         col.regions = RColorBrewer::brewer.pal(9, "Greens"), 
+         alpha.regions = 1,
+         popup = mypopup)
+
+```
+
+
+```{r}
+
+joined_vacomparison %>% 
+  arrange(desc(biden_pct)) %>% 
+  head(15) %>% 
+  ggplot(aes(x = locality, y = biden_pct)) + 
+  geom_col(color = "black", fill = "#5DACFF") +
+  coord_flip() + 
+  scale_y_continuous(name = "Pct of Votes to Biden by County") +
+  scale_x_discrete(name = "County") +
+  theme_clean() +
+  labs(title = "Voter Turnout in US Election", 
+       subtitle = "2020 General Election",
+       caption = "Source: USA") +
+  theme(axis.text.y = element_text(angle = 45))
+
+```
+
+
+```{r}
+
+joined_vacomparison %>% 
+  arrange(desc(biden_pct)) %>% 
+  head(15) %>% 
+  ggplot(aes(x = locality, y = pct_youngkin)) + 
+  geom_col(color = "black", fill = "#FF7A5D") +
+  coord_flip() + 
+  scale_y_continuous(name = "Pct of Votes to Youngkin by County") +
+  scale_x_discrete(name = "County") +
+  theme_clean() +
+  labs(title = "Voter Turnout in VA Election", 
+       subtitle = "2020 VA Governor Election",
+       caption = "Source: USA") +
+  theme(axis.text.y = element_text(angle = 45))
+
+```
+
+
+```{r}
+
+DT::datatable(joined_vacomparison, 
+              rownames = FALSE, 
+              filter = "top")
+
+
+```
+
