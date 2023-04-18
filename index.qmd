@@ -12,7 +12,7 @@ about:
       href: https://github.com/safarooqi
 ---
 
-Hi, I'm Samiha and I'm currently a history and data science student at the George Washington University 
+Hi, I'm Samiha, and I'm a history and data science double major at the George Washington University in Washington, D.C.
 
 
  

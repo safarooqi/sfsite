@@ -1,0 +1,109 @@
+---
+title: "R Visualization Walkthrough"
+editor: visual
+---
+
+
+## Creating a Map in R
+
+**Here I will be taking you through how I am creating an interactive map displaying the median income in Massachusetts, using census data.**
+
+
+```{r}
+
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(tigris)
+library(sf)
+library(tidycensus)
+library(htmltools)
+library(janitor)
+library(here)
+library(mapview)
+library(leafsync)
+library(leaflet.extras2)
+options(tigris_class = "sf")
+
+
+```
+
+
+## Step #1
+
+**First, I will be coding a few variables of interest. We will be specifically analyzing the median income variable.**
+
+
+```{r}
+myvars <- c(totalpop = "B01003_001",
+            medincome = "B19013_001",
+            medage = "B01002_001"
+)
+```
+
+
+## Step #2
+
+**Then, I will retrieve the data from the American Community Survey feature, using tidycensus in R.**
+
+
+```{r}
+ma_counties_withgeo <- get_acs(geography = "county",
+                       variables = c(myvars),
+                       state = "MA",
+                       output = "wide",
+                       geometry = TRUE)
+
+ma_counties_withgeo
+```
+
+
+## Step #3
+
+**Now I'll just clean up the data a bit and get it prepped for the map.**
+
+
+```{r}
+ma_counties_withgeo <- ma_counties_withgeo %>%
+  select(-ends_with("M"))
+```
+
+```{r}
+
+colnames(ma_counties_withgeo) <- sub("E$", "", colnames(ma_counties_withgeo))
+
+```
+
+
+## Step #4
+
+**And behold! Using mapview, below I can display an interactive map displaying the median income for each county in the state of Massachusetts.**
+
+
+```{r}
+mapview(ma_counties_withgeo, zcol = "medincome", 
+         col.regions = RColorBrewer::brewer.pal(9, "Greens"), 
+         alpha.regions = 1)
+```
+
+```{r}
+mypopup <- glue::glue("<strong>{ma_counties_withgeo$NAM}</strong><br />
+                      Total Population: {ma_counties_withgeo$totalpop}<br />
+                      Median Income: {ma_counties_withgeo$medincome}") %>% 
+  lapply(htmltools::HTML)
+
+```
+
+
+## Step #5
+
+**Here is a cleaned up version of the map the utilizes a pop-up.**
+
+
+```{r}
+mapview(ma_counties_withgeo, zcol = "medincome", 
+         col.regions = RColorBrewer::brewer.pal(9, "Greens"), 
+         alpha.regions = 1,
+         popup = mypopup)
+```
+

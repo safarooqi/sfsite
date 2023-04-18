@@ -8,7 +8,7 @@ format:
     code-tools: true
 ---
 
-Below are two writing samples I have produced. The first is a basic paper analyzing the role of the IMF in the global economy, while the second is a formal research paper into how the pressure of grades may or may not affect a student's writing process.
+Below are two writing samples I have produced. The first is a basic academic paper analyzing the role of the IMF in the global economy, written for a global economic history class. The second is a formal research paper into how the pressure of grades may or may not affect a student's writing process.
 
 # Privatize or Perish: The IMF's Guide to Devastating an International Economy
 

@@ -1,6 +1,6 @@
 ---
 title: "Virginia Election Project"
-author: "putyournamehere"
+author: "Samiha"
 execute:
   echo: true
 format:
@@ -8,7 +8,6 @@ format:
     self-contained: true
     code-tools: true
 ---
-
 
 ```{r setup, include=FALSE, warning=FALSE, message=FALSE}
 
@@ -32,12 +31,13 @@ library(scales)
 library(viridis)
 library(ggthemes)
 library(htmlwidgets)
-library(htmltools)
+library(httr)
+library(jsonlite)
+library(kableExtra)
 options(scipen = 999)
 options(stringsAsFactors = FALSE)
 
 
-#load saved joined data file from previous script
 joined_vacomparison <- readRDS(here("processed_data", "joined_vacomparison.rds"))
 
 saveRDS(joined_vacomparison, here("processed_data", "joined_vacomparison.rds"))
@@ -45,10 +45,255 @@ write_csv(joined_vacomparison, here("processed_data", "joined_vacomparison.csv")
 
 ```
 
+# Data Wrangling & Analysis
 
-# Comparing Virgnia Gov vs. Prez
+First we'll begin by cleaning up and joining two data sets containing info on the 2020 national election results, as well as the VA governor race.
+
+Data available here: <https://historical.elections.virginia.gov/elections/view/144567/>
+
+```{r}
+
+prez_2020 <- read_csv("processed_data/va_2020_prez_cleaned.csv")
+
+```
+
+Taking a first look at the data
+
+```{r}
+
+head(prez_2020) 
 
 
+```
+
+Calculating percentage of the vote
+
+```{r}
+
+prez_2020 %>% 
+  mutate(
+    biden_pct = biden/total_votes_2021_prez
+  )
+
+```
+
+Now let's do some rounding and move that decimal point
+
+```{r}
+
+prez_2020 %>% 
+  mutate(
+    biden_pct = janitor::round_half_up(biden / total_votes_2021_prez * 100, 1)
+  )
+
+```
+
+Calculating the percentage of the total votes Biden and Trump respectively recieved
+
+```{r}
+
+prez_2020 <- prez_2020 %>% 
+  mutate(
+    biden_pct = janitor::round_half_up(biden / total_votes_2021_prez * 100, 2),
+    trump_pct = janitor::round_half_up(trump / total_votes_2021_prez * 100, 2)
+  )
+
+head(prez_2020)
+
+```
+
+Data now available from the state here: <https://historical.elections.virginia.gov/elections/view/147466>.
+
+```{r}
+
+jsonfile <- "raw_data/va_gov_json_archived.json"
+
+#using jsonlite package function fromJSON()
+this.content <- fromJSON(jsonfile)
+
+#dataframe from just the 6 content 
+content_df <- as.data.frame(this.content[[6]])
+
+```
+
+Where are candidates themselves? They are "nested" inside. We'll use `unnest()`to expand things.
+
+```{r}
+#unnest
+results <- content_df %>%
+  unnest(cols = Candidates)
+
+head(results)
+
+```
+
+Unnest again on locality
+
+```{r}
+
+results <- results %>%
+  unnest(cols = Locality)
+
+head(results)
+```
+
+Cleaning up the columns
+
+```{r}
+
+gov_2021 <- results %>% 
+  clean_names() %>% 
+  select(-precincts_reporting,
+         -precincts_participating,
+         -last_modified,
+         -ballot_order)
+
+head(gov_2021)
+
+```
+
+Reshaping the data so that it's easier to use
+
+```{r}
+
+gov_2021 <- gov_2021 %>% 
+  filter(ballot_name %in% c("Glenn A. Youngkin", "Terry R. McAuliffe")) %>% 
+  select(-locality_code,
+         -political_party)
+  
+gov_2021
+
+```
+
+```{r}
+
+gov_2021_wide <- gov_2021 %>% 
+  pivot_wider(names_from = ballot_name, values_from = c(votes, percentage))
+
+gov_2021_wide
+
+```
+
+```{r}
+
+gov_2021_wide <- gov_2021_wide %>% 
+  clean_names()
+
+head(gov_2021_wide)
+```
+
+```{r}
+
+gov_2021_wide <- gov_2021_wide %>% 
+  rename(
+    youngkin = votes_glenn_a_youngkin,
+    mcauliffe = votes_terry_r_mc_auliffe,
+    pct_youngkin = percentage_glenn_a_youngkin,
+    pct_mcauliffe = percentage_terry_r_mc_auliffe
+  )
+
+head(gov_2021_wide)
+
+```
+
+```{r}
+
+gov_2021_wide <- gov_2021_wide %>% 
+  mutate(
+    pct_youngkin = readr::parse_number(pct_youngkin),
+    pct_mcauliffe = readr::parse_number(pct_mcauliffe)
+  )
+
+head(gov_2021_wide)
+```
+
+Perfect. Problem solved.
+
+## Joining the Two Data Sets
+
+```{r}
+
+gov_2021_wide
+
+```
+
+```{r}
+
+prez_2020
+
+```
+
+Cleaning up the data sets to get them ready for the join
+
+```{r}
+
+prez_2020 <- prez_2020 %>% 
+  mutate(
+    locality = str_to_upper(locality)
+  ) %>% 
+  select(-total_votes_2021_prez)
+
+prez_2020
+
+```
+
+```{r}
+
+anti_join(prez_2020, gov_2021_wide, by = c("locality" = "locality_name"))
+
+```
+
+```{r}
+
+anti_join(gov_2021_wide, prez_2020, by = c("locality_name" = "locality"))
+
+```
+
+```{r}
+
+prez_2020 <- prez_2020 %>% 
+  filter(locality != "TOTALS") %>% 
+  mutate(
+    locality = str_replace(locality, "KING AND QUEEN", "KING & QUEEN")
+  )
+
+
+```
+
+Now joining
+
+```{r}
+
+joined_vacomparison <- inner_join(prez_2020, gov_2021_wide, by = c("locality" = "locality_name"))
+
+head(joined_vacomparison)
+
+#save results to file for next step
+saveRDS(joined_vacomparison, here("processed_data", "joined_vacomparison.rds"))
+write_csv(joined_vacomparison, here("processed_data", "joined_vacomparison.csv"))
+
+```
+
+## Analysis: Comparing the 2020 VA National & Local Election Results
+
+```{r}
+
+joined_vacomparison %>% 
+  mutate(
+    mc_overperform = pct_mcauliffe - biden_pct,
+    mc_overperform_5 <- if_else(mc_overperform < -5, "Yes", "No")
+  )
+
+
+```
+
+```{r}
+
+saveRDS(joined_vacomparison, here("processed_data", "joined_vacomparison.rds"))
+write_csv(joined_vacomparison, here("processed_data", "joined_vacomparison.csv"))
+
+
+```
 
 ```{r}
 
@@ -57,6 +302,7 @@ head(joined_vacomparison)
 
 ```
 
+First, need to join the data set with a shapefile in order to produce a map
 
 ```{r}
 
@@ -69,70 +315,196 @@ va_elect_sf <- va_count_geo %>%
 
 ```
 
+Next, I'll customize the labels and pop-ups for the maps so they look cleaner
 
 ```{r}
 
-mypopup <- glue::glue("<strong>{va_elect_sf$NAME}</strong><br />
+
+mylabel1 <- glue::glue("{va_elect_sf$NAMELSAD} {va_elect_sf$biden_pct}")
+
+mylabel2 <- glue::glue("{va_elect_sf$NAMELSAD} {va_elect_sf$pct_mcauliffe}")
+
+mylabel3 <- glue::glue("{va_elect_sf$NAMELSAD} {va_elect_sf$trump_pct}")
+
+mylabel4 <- glue::glue("{va_elect_sf$NAMELSAD} {va_elect_sf$pct_youngkin}")
+
+
+```
+
+```{r}
+
+mypopup1 <- glue::glue("<strong>{va_elect_sf$NAMELSAD}</strong><br />
                       Biden Pct: {va_elect_sf$biden_pct}<br />") %>% 
   lapply(htmltools::HTML)
 
+mypopup2 <- glue::glue("<strong>{va_elect_sf$NAMELSAD}</strong><br />
+                      McAuliffe Pct: {va_elect_sf$pct_mcauliffe}<br />") %>% 
+  lapply(htmltools::HTML)
+
+mypopup3 <- glue::glue("<strong>{va_elect_sf$NAMELSAD}</strong><br />
+                      Trump Pct: {va_elect_sf$trump_pct}<br />") %>% 
+  lapply(htmltools::HTML)
+
+mypopup4 <- glue::glue("<strong>{va_elect_sf$NAMELSAD}</strong><br />
+                      Youngkin Pct: {va_elect_sf$pct_youngkin}<br />") %>% 
+  lapply(htmltools::HTML)
+
+
 ```
 
+Now I'll create each map and clean them up to get them ready for comparison
 
 ```{r}
 
-mapview(va_elect_sf, zcol = "biden_pct", 
-         col.regions = RColorBrewer::brewer.pal(9, "Greens"), 
-         alpha.regions = 1,
-         popup = mypopup)
+biden_map = mapview(va_elect_sf, zcol = "biden_pct",
+                    col.regions = RColorBrewer::brewer.pal(9, "Blues"), 
+                    alpha.regions = 1,
+                    legend = FALSE,
+                    popup = mypopup1,
+                    label = mylabel1)
+
 
 ```
-
 
 ```{r}
 
-joined_vacomparison %>% 
-  arrange(desc(biden_pct)) %>% 
-  head(15) %>% 
-  ggplot(aes(x = locality, y = biden_pct)) + 
-  geom_col(color = "black", fill = "#5DACFF") +
-  coord_flip() + 
-  scale_y_continuous(name = "Pct of Votes to Biden by County") +
-  scale_x_discrete(name = "County") +
-  theme_clean() +
-  labs(title = "Voter Turnout in US Election", 
-       subtitle = "2020 General Election",
-       caption = "Source: USA") +
-  theme(axis.text.y = element_text(angle = 45))
+mcauliffe_map = mapview(va_elect_sf, zcol = "pct_mcauliffe",
+                        col.regions = RColorBrewer::brewer.pal(9, "Blues"), 
+                        alpha.regions = 1,
+                        legend = FALSE,
+                        popup = mypopup2,
+                        label = mylabel2)
+
 
 ```
-
 
 ```{r}
 
-joined_vacomparison %>% 
-  arrange(desc(biden_pct)) %>% 
-  head(15) %>% 
-  ggplot(aes(x = locality, y = pct_youngkin)) + 
-  geom_col(color = "black", fill = "#FF7A5D") +
-  coord_flip() + 
-  scale_y_continuous(name = "Pct of Votes to Youngkin by County") +
-  scale_x_discrete(name = "County") +
-  theme_clean() +
-  labs(title = "Voter Turnout in VA Election", 
-       subtitle = "2020 VA Governor Election",
-       caption = "Source: USA") +
-  theme(axis.text.y = element_text(angle = 45))
+trump_map = mapview(va_elect_sf, zcol = "trump_pct",
+                    col.regions = RColorBrewer::brewer.pal(9, "Reds"), 
+                    alpha.regions = 1,
+                    legend = FALSE,
+                    popup = mypopup3, 
+                    label = mylabel3)
 
 ```
-
 
 ```{r}
 
-DT::datatable(joined_vacomparison, 
-              rownames = FALSE, 
-              filter = "top")
+youngkin_map = mapview(va_elect_sf, zcol = "pct_youngkin",
+                       col.regions = RColorBrewer::brewer.pal(9, "Reds"), 
+                       alpha.regions = 1,
+                       legend = FALSE,
+                       popup = mypopup4,
+                       label = mylabel4)
+
+```
+
+Customizing the labels on the map
+
+```{r}
 
 
 ```
 
+Now let's take a look at the maps. First we'll find the McAuliffe and Youngkin maps side by side, then the Biden and Trump maps. What we're seeing in each map is a percentage of the total votes that each candidate received.
+
+```{r}
+
+sync(youngkin_map, mcauliffe_map)
+
+```
+
+```{r}
+
+sync(trump_map, biden_map)
+
+```
+
+We can also see how Biden and McAuliffe, and Trump and Youngkin, compare to each other by district, and if there is a noticeable different
+
+```{r}
+
+biden_map | mcauliffe_map
+
+```
+
+```{r}
+
+trump_map | youngkin_map
+
+```
+
+```{r}
+
+# joined_vacomparison %>% 
+#   arrange(desc(biden_pct)) %>% 
+#   head(15) %>% 
+#   ggplot(aes(x = locality, y = biden_pct)) + 
+#   geom_col(color = "black", fill = "#CDBFF5") +
+#   coord_flip() + 
+#   scale_y_continuous(name = "Pct of Votes to Biden by County") +
+#   scale_x_discrete(name = "County") +
+#   theme_clean() +
+#   labs(title = "Voter Turnout in US Election", 
+#        subtitle = "2020 General Election",
+#        caption = "Source: USA") +
+#   theme(axis.text.y = element_text(angle = 45))
+
+
+```
+
+```{r}
+# 
+# joined_vacomparison %>% 
+#   arrange(desc(trump_pct)) %>% 
+#   head(15) %>% 
+#   ggplot(aes(x = locality, y = trump_pct)) + 
+#   geom_col(color = "black", fill = "#CDBFF5") +
+#   coord_flip() + 
+#   scale_y_continuous(name = "Pct of Votes to Trump by County") +
+#   scale_x_discrete(name = "County") +
+#   theme_clean() +
+#   labs(title = "Voter Turnout in US Election", 
+#        subtitle = "2020 General Election",
+#        caption = "Source: USA") +
+#   theme(axis.text.y = element_text(angle = 45))
+
+```
+
+```{r}
+
+# joined_vacomparison %>% 
+#   arrange(desc(pct_mcauliffe)) %>% 
+#   head(15) %>% 
+#   ggplot(aes(x = locality, y = pct_mcauliffe)) + 
+#   geom_col(color = "black", fill = "#C2F3BE") +
+#   coord_flip() + 
+#   scale_y_continuous(name = "Pct of Votes to McAuliffe by County") +
+#   scale_x_discrete(name = "County") +
+#   theme_clean() +
+#   labs(title = "Voter Turnout in VA Election", 
+#        subtitle = "2020 VA Governor Election",
+#        caption = "Source: USA") +
+#   theme(axis.text.y = element_text(angle = 45))
+
+```
+
+```{r}
+
+# joined_vacomparison %>% 
+#   arrange(desc(pct_youngkin)) %>% 
+#   head(15) %>% 
+#   ggplot(aes(x = locality, y = pct_youngkin)) + 
+#   geom_col(color = "black", fill = "#C2F3BE") +
+#   coord_flip() + 
+#   scale_y_continuous(name = "Pct of Votes to Youngkin by County") +
+#   scale_x_discrete(name = "County") +
+#   theme_clean() +
+#   labs(title = "Voter Turnout in VA Election", 
+#        subtitle = "2020 VA Governor Election",
+#        caption = "Source: USA") +
+#   theme(axis.text.y = element_text(angle = 45))
+
+
+```
