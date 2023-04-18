@@ -17,8 +17,8 @@ website:
         text: About 
       - href: map.qmd
         text: R Walkthrough
-      - href: 02_virginia_election_project_youranalysis.qmd
-        text: R Class Project
+      - href: va_project.qmd
+        text: R Project
       - href: portfolio.qmd
         text: Articles
       - href: walkthrough.qmd
