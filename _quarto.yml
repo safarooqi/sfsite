@@ -18,6 +18,8 @@ website:
       - href: map.qmd
         text: R Walkthrough
       - href: portfolio.qmd
+        text: R Class Project
+      - href: 02_virginia_election_project_youranalysis.qmd
         text: Articles
       - href: walkthrough.qmd
         text: Writings
