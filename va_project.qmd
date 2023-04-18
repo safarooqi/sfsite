@@ -1,12 +1,5 @@
 ---
 title: "Virginia Election Project"
-author: "Samiha"
-execute:
-  echo: true
-format:
-  html:
-    self-contained: true
-    code-tools: true
 ---
 
 ```{r setup, include=FALSE, warning=FALSE, message=FALSE}
@@ -399,8 +392,6 @@ youngkin_map = mapview(va_elect_sf, zcol = "pct_youngkin",
                        label = mylabel4)
 
 ```
-
-Customizing the labels on the map
 
 ```{r}
 
