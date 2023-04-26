@@ -5,6 +5,12 @@ editor: visual
 
 ## Creating a Map in R
 
+```         
+git push -f origin master
+```
+
+### 
+
 **Here I will be taking you through how I am creating an interactive map displaying the median income in Massachusetts, using census data.**
 
 ```{r}
@@ -94,3 +100,4 @@ mapview(ma_counties_withgeo, zcol = "medincome",
          alpha.regions = 1,
          popup = mypopup)
 ```
+
