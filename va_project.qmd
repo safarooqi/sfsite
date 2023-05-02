@@ -295,11 +295,21 @@ head(joined_vacomparison)
 
 ```
 
+<br>
+
 First, need to join the data set with a shapefile in order to produce a map
+
+<br>
+
+```{r, include=FALSE}
+
+va_count_geo <- tigris::counties(state = "VA", resolution = "20m", cb = TRUE)
+
+
+```
 
 ```{r}
 
-va_count_geo <- tigris::counties(state = "VA", resolution = "20m", cb = TRUE)
 
 va_count_geo$NAMELSAD <- toupper(va_count_geo$NAMELSAD)
 
@@ -426,7 +436,7 @@ trump_map | youngkin_map
 
 ```
 
-```{r}
+```{r, include=FALSE}
 
 # joined_vacomparison %>% 
 #   arrange(desc(biden_pct)) %>% 
@@ -445,7 +455,7 @@ trump_map | youngkin_map
 
 ```
 
-```{r}
+```{r, include=FALSE}
 # 
 # joined_vacomparison %>% 
 #   arrange(desc(trump_pct)) %>% 
@@ -463,7 +473,7 @@ trump_map | youngkin_map
 
 ```
 
-```{r}
+```{r, include=FALSE}
 
 # joined_vacomparison %>% 
 #   arrange(desc(pct_mcauliffe)) %>% 
@@ -481,7 +491,7 @@ trump_map | youngkin_map
 
 ```
 
-```{r}
+```{r, include=FALSE}
 
 # joined_vacomparison %>% 
 #   arrange(desc(pct_youngkin)) %>% 

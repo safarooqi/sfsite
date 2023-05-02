@@ -6,7 +6,6 @@ editor: visual
 ## Creating a Map in R
 
 ```         
-git push -f origin master
 ```
 
 ### 
@@ -47,12 +46,17 @@ myvars <- c(totalpop = "B01003_001",
 
 **Then, I will retrieve the data from the American Community Survey feature, using tidycensus in R.**
 
-```{r}
+```{r, include=FALSE}
 ma_counties_withgeo <- get_acs(geography = "county",
                        variables = c(myvars),
                        state = "MA",
                        output = "wide",
                        geometry = TRUE)
+
+
+```
+
+```{r}
 
 ma_counties_withgeo
 ```
@@ -100,4 +104,3 @@ mapview(ma_counties_withgeo, zcol = "medincome",
          alpha.regions = 1,
          popup = mypopup)
 ```
-

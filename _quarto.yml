@@ -4,25 +4,40 @@ project:
 
 website:
   page-footer: 
-    left: "Copyright 2022, Testy R. Testman" 
+    left: "Copyright 2022" 
     right: 
       - icon: github
         href: https://github.com/
-  title: "Samiha's Website"
+  title: "SAMIHA FAROOQI"
   navbar:
     left:
       - href: index.qmd
         text: Home
       - href: about.qmd
         text: About 
-      - href: map.qmd
-        text: R Walkthrough
-      - href: va_project.qmd
-        text: R Project
-      - href: portfolio.qmd
-        text: Articles
-      - href: walkthrough.qmd
-        text: Writings
+      - text: R Walkthrough
+        menu:
+        - href: map.qmd
+          text: Sample Mapping
+        - href: va_project.qmd
+          text: Sample Project 1
+        - href: r_walkthrough.qmd
+          text: Sample Project 2
+      - text: Articles
+        menu: 
+          - href: portfolio.qmd
+            text: Published Archive 
+          - href: example_article.qmd
+            text: Example Breaking News Story
+          - href: article1.qmd
+            text: Sample Striketober Article
+      - text: Writings
+        menu:
+        - href: walkthrough.qmd
+          text: Sample Research Article
+        - href: essay1.qmd
+          text: Sample Essay
+          
       
 
 
