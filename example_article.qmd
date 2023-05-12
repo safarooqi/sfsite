@@ -18,7 +18,7 @@ options(scipen = 999)
 
 ```{r, include=FALSE, message=FALSE}
 
-ticker <- "DIS" 
+ticker <- "DIS"
 
 stock1 = tq_get(ticker, get = "stock.prices", from = "2023-05-08")
 

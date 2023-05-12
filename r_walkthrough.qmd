@@ -103,5 +103,4 @@ And finally, our finished map!
 
 map1 + tm_view(set.view = c(-105, 48, 3))
 
-
 ```
