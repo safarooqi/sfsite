@@ -3,7 +3,7 @@ title: "R Visualization Walkthrough"
 editor: visual
 ---
 
-## Creating a Map in R
+## How to Create a Map in R
 
 ```         
 ```
@@ -33,7 +33,7 @@ options(tigris_class = "sf")
 
 ## Step #1
 
-**First, I will be coding a few variables of interest. We will be specifically analyzing the median income variable.**
+### **First, I will be coding a few variables of interest. We will be specifically analyzing the median income variable.**
 
 ```{r}
 myvars <- c(totalpop = "B01003_001",
@@ -44,7 +44,7 @@ myvars <- c(totalpop = "B01003_001",
 
 ## Step #2
 
-**Then, I will retrieve the data from the American Community Survey feature, using tidycensus in R.**
+### **Then, I will retrieve the data from the American Community Survey feature, using tidycensus in R.**
 
 ```{r, include=FALSE}
 ma_counties_withgeo <- get_acs(geography = "county",
@@ -63,7 +63,7 @@ ma_counties_withgeo
 
 ## Step #3
 
-**Now I'll just clean up the data a bit and get it prepped for the map.**
+### **Now I'll just clean up the data a bit and get it prepped for the map.**
 
 ```{r}
 ma_counties_withgeo <- ma_counties_withgeo %>%
@@ -78,7 +78,7 @@ colnames(ma_counties_withgeo) <- sub("E$", "", colnames(ma_counties_withgeo))
 
 ## Step #4
 
-**And behold! Using mapview, below I can display an interactive map displaying the median income for each county in the state of Massachusetts.**
+### **And behold! Using mapview, below I can display an interactive map displaying the median income for each county in the state of Massachusetts.**
 
 ```{r}
 mapview(ma_counties_withgeo, zcol = "medincome", 
@@ -96,7 +96,7 @@ mypopup <- glue::glue("<strong>{ma_counties_withgeo$NAM}</strong><br />
 
 ## Step #5
 
-**Here is a cleaned up version of the map the utilizes a pop-up.**
+### **Here is a cleaned up version of the map the utilizes a pop-up.**
 
 ```{r}
 mapview(ma_counties_withgeo, zcol = "medincome", 

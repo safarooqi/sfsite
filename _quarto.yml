@@ -18,11 +18,12 @@ website:
       - text: R Walkthrough
         menu:
         - href: map.qmd
-          text: Sample Mapping
+          text: Sample Mapping 
         - href: va_project.qmd
-          text: Sample Project 1
+          text: Sample Project 
         - href: r_walkthrough.qmd
-          text: Sample Project 2
+          text: R Tutorial
+        
       - text: Articles
         menu: 
           - href: portfolio.qmd
