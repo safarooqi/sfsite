@@ -99,7 +99,7 @@ map1 = tm_shape(d, projection="+proj=eck4") +
 
 And finally, our finished map!
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE,  include=FALSE}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 
 map1 + tm_view(set.view = c(-105, 48, 3))
 
