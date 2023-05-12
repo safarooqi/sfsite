@@ -1,4 +1,4 @@
 ---
-title: "Example Data Article"
+title: "Example Breaking News Article Using Inline R Code"
 editor: visual
 ---

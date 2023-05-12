@@ -1,4 +1,107 @@
 ---
-title: "R Walkthrough"
+title: "R Tutorial"
 editor: visual
 ---
+
+# How to Retrieve ACS Data & use tmap
+
+### 
+
+### STEP #1
+
+**First, we'll begin by loading the necessary libraries: tidyverse, tidycensus, and tmap**
+
+```{r}
+
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(tidycensus)
+library(tmap)
+
+
+```
+
+### STEP #2
+
+**Now we must use our census api key in order to retrieve our data. We can also set tmap to view mode.**
+
+```{r}
+
+
+census_api_key("c9264540e1e33a3c55dacba891cde5dd6a5ebb5e", overwrite = TRUE)
+
+tmap_mode("view")
+
+
+
+```
+
+### STEP #3
+
+**Next, we will set our variables of choice. Because I'm looking at the number of people near the poverty threshold, I'm pulling the variable for Ratio Of Income To Poverty Level In The Past 12 Months**
+
+```{r}
+
+my_variables1 = c(
+  below = "C17002_004",
+  middle = "C17002_005"
+)
+
+```
+
+### STEP #4
+
+**Now that we have our variables, we can specify which acs survey we want to pull data from, and then set all the acs info to a variable---this is our data set now**
+
+```{r}
+
+d = get_acs(
+  geography = "state",
+  variables = my_variables1, 
+  year = 2019,
+  survey = "acs1",
+  geometry = TRUE,
+  resolution = "20m"
+) 
+
+```
+
+### STEP #5
+
+**And now we can make our map! Before we can have an interactive tmap, we will have to set the parameters to the map. Using the tmap package, we can specify the data we are pulling from and customize the map however we like.**
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+map1 = tm_shape(d, projection="+proj=eck4") + 
+  tm_polygons("estimate",
+              n = 6,
+              id = "NAME",
+              palette = "Greens",
+              title = "ACS Estimate",
+              legend.hist = TRUE,
+              alpha = 0.7, 
+              breaks = c(0, 40000, 120000, 200000, 350000, 600000, 1000000, 1500000)) + 
+  tm_borders(lwd = .50, 
+             col = "black",
+             alpha = 1) +
+  tm_layout(inner.margins=c(0,0,.1,0), 
+            title.size=.8,
+            title = "Number of People Near The Poverty Threshold, 2019",
+            frame = TRUE,
+            legend.outside = TRUE,
+            legend.hist.width = 5,
+            fontfamily = "Helvetica")  
+
+```
+
+### STEP #6
+
+And finally, our finished map!
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE,  include=FALSE}
+
+map1 + tm_view(set.view = c(-105, 48, 3))
+
+
+```
