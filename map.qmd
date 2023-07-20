@@ -5,11 +5,6 @@ editor: visual
 
 ## How to Create a Map in R
 
-```         
-```
-
-### 
-
 **Here I will be taking you through how I am creating an interactive map displaying the median income in Massachusetts, using census data.**
 
 ```{r}
