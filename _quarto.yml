@@ -22,7 +22,7 @@ website:
         - href: va_project.qmd
           text: Data Wrangling Tutorial
         - href: dats2102_project.qmd
-          text: Data Visualization Project 
+          text: Data Visualization Project
         
       - text: Articles
         menu: 
