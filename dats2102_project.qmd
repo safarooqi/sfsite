@@ -1,0 +1,352 @@
+---
+title: "SAMPLE DATA VISUALIZATION PROJECT"
+editor: visual
+---
+
+## Posing the Question
+
+The COVID-19 pandemic has been destructive, to say the least. In March of 2020, entire countries shut down in a blink of an eye, leaving many people sitting ducks as they tried to make by with whatever meager savings they had stored away. Two years out, the virus only continues to wreck havoc on families and communities, financially devastating many in the process. With this in mind, it all begs the question: [*how has the average person gotten by?*]{style="color:cornflowerblue"} In the United States specifically---a country with such a laissez faire attitude towards the economy, and a less than established social safety net---[*in what ways has the average American fared over the course of this pandemic, and the financial crisis that ensued as a result?*]{style="color:cornflowerblue"}
+
+In regards to methodology, I'll be using a series of maps, graphs, and statistical figures created in [R]{style="color:cornflowerblue"} in order to analyze pandemic's impact on poverty, and what factors contributed to those changes. Moreover, I'll make an attempt to address larger, overarching macroeconomic issues---however, it should be noted I will be unable to definitively answer these questions, and instead simply established my own informed opinion based on my findings.
+
+```{r setup, include=FALSE, echo=FALSE, message=FALSE, warning=FALSE, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+
+library(tidyverse)
+library(tidycensus)
+library(tigris)
+library(sf)
+library(tmap)
+library(dplyr)
+library(sf)
+library(ggthemes)
+library(RColorBrewer)
+library(plotly)
+library(readxl)
+library(huxtable)
+library(table1)
+library(kableExtra)
+
+```
+
+## The Poverty Threshold
+
+Using data from the American Community Survey (ACS) from 2019 and 2020, I created two graphs that display the number of people in each state in the U.S. that are on the edge of falling under the poverty threshold. This data is displayed by specifically utilizing the ratio of income to the poverty threshold, from the ratio [1.00]{style="color:cornflowerblue"} to [1.49.]{style="color:cornflowerblue"} According to the U.S. Census Bureau, the ratio of income to the poverty threshold is calculated by dividing a family's total household income by the poverty threshold. Households who's ratio are [0.99]{style="color:cornflowerblue"} and under fall are considered impoverished, while those whose ratio is above [1.00]{style="color:cornflowerblue"} are considered above the poverty line. For example, if the Smith family's total household income is [32,000]{style="color:cornflowerblue"} dollars and that is divided by the poverty threshold, or [31,661]{style="color:cornflowerblue"}dollars, that equals [1.01]{style="color:cornflowerblue"}---meaning, the Smith's are above the poverty threshold.
+
+
+```{r 2019_poverty_code, echo=FALSE, message=FALSE, warning=FALSE, include = FALSE}
+
+census_api_key("c9264540e1e33a3c55dacba891cde5dd6a5ebb5e", overwrite = TRUE)
+
+tmap_mode("view")
+
+my_variables1 = c(
+  below = "C17002_004",
+  middle = "C17002_005"
+)
+
+d = get_acs(
+  geography = "state",
+  variables = my_variables1, 
+  year = 2019,
+  survey = "acs1",
+  geometry = TRUE,
+  resolution = "20m"
+) 
+
+map1 = tm_shape(d, projection="+proj=eck4") + 
+  tm_polygons("estimate",
+              n = 6,
+              id = "NAME",
+              palette = "Greens",
+              title = "ACS Estimate",
+              legend.hist = TRUE,
+              alpha = 0.7, 
+              breaks = c(0, 40000, 120000, 200000, 350000, 600000, 1000000, 1500000)) + 
+  tm_borders(lwd = .50, 
+             col = "black",
+             alpha = 1) +
+  tm_layout(inner.margins=c(0,0,.1,0), 
+            title.size=.8,
+            title = "Number of People Near The Poverty Threshold, 2019",
+            frame = TRUE,
+            legend.outside = TRUE,
+            legend.hist.width = 5,
+            fontfamily = "Helvetica")   
+
+```
+
+```{r 2019_poverty_map, fig.height=7, fig.width=10, fig.align="center", echo=FALSE, message=FALSE, warning=FALSE}
+
+map1 + tm_view(set.view = c(-105, 48, 3))
+
+```
+
+I chose to represent those who are just above the poverty ratio in order to see if there is a visual difference in the number of people who are closer to the poverty line across the country. By clicking on any given state, one can see whether or not there are major differences in how many people fell closer to the poverty threshold from 2019 to 2020.
+
+```{r 2020_poverty_code, echo=FALSE, message=FALSE, warning=FALSE, include = FALSE}
+
+options(tigris_use_cache = TRUE)
+
+census_api_key("c9264540e1e33a3c55dacba891cde5dd6a5ebb5e", overwrite = TRUE)
+
+tmap_mode("view")
+
+my_variables2 = c(
+  below = "C17002_004",
+  middle = "C17002_005"
+)
+
+d2 = get_acs(
+  geography = "state",
+  variables = my_variables2, 
+  year = 2020,
+  survey = "acs5",
+  geometry = TRUE,
+  resolution = "20m"
+) 
+
+map2 = tm_shape(d2, projection="+proj=eck4") + 
+  tm_polygons("estimate",
+              n = 6,
+              id = "NAME",
+              palette = "Greens",
+              title = "ACS Estimate",
+              legend.hist = TRUE,
+              alpha = 0.7, 
+              breaks = c(0, 40000, 120000, 200000, 350000, 600000, 1000000, 1500000)) + 
+  tm_borders(lwd = .50, 
+             col = "black",
+             alpha = 1) +
+  tm_layout(inner.margins=c(0,0,.1,0), 
+            title.size=.8,
+            title = "Number of People Near The Poverty Threshold, 2020",
+            frame = TRUE,
+            legend.outside = TRUE,
+            legend.hist.width = 5,
+            fontfamily = "Helvetica") 
+
+```
+
+```{r 2020_poverty_map, echo=FALSE, fig.height=7, fig.width=10, fig.align="center", message=FALSE, warning=FALSE}
+
+map2 + tm_view(set.view = c(-105, 48, 3))
+
+```
+
+## Statistical Analysis
+
+Taking a look at the previous maps, there is not a major visible difference in how many people fell closer to to the poverty threshold. However, creating this table using descriptive statistics, it can be seen that the median number of households whose income to poverty ratios are between [1.00]{style="color:cornflowerblue"} to [1.49.]{style="color:cornflowerblue"} rose, from [176,000]{style="color:cornflowerblue"} in 2019 in to [282,000]{style="color:cornflowerblue"} in 2020. Meaning, the median of people close to the poverty threshold increased by [106,000]{style="color:cornflowerblue"} in just a year. And according to the U.S. Census Bureau, the official poverty rate in 2020 was [11.4]{style="color:cornflowerblue"} percent, which is up [1.0]{style="color:cornflowerblue"} percentage point from [10.5]{style="color:cornflowerblue"} in 2019. That is the first increase in poverty after five years of consecutive declines.
+
+
+```{r poverty_comp_19_20, echo=FALSE, fig.height = 7, fig.width = 8}
+
+p = get_acs(
+  geography = "state",
+  variables = "C17002_004", 
+  year = 2019,
+  survey = "acs1",
+  geometry = TRUE,
+  resolution = "20m"
+) 
+
+p2 = get_acs(
+  geography = "state",
+  variables = "C17002_004", 
+  year = 2020,
+  survey = "acs5",
+  geometry = TRUE,
+  resolution = "20m"
+) 
+
+
+table1::label(p$estimate) = "Number of People Near the Poverty Threshold, 2019"
+pt = table1::table1(~estimate, data = p)
+
+t1kable(pt) %>%
+  kable_styling(position = "center")
+
+table1::label(p2$estimate) = "Number of People Near the Poverty Threshold, 2020"
+pt2 = table1::table1(~estimate, data = p2)
+
+t1kable(pt2) %>%
+  kable_styling(position = "center")
+
+```
+
+## The Consumer Price Index (CPI)
+
+Here I am taking a look at a few basic goods/services in the Consumer Price Index (CPI), which is published by the Bureau of Labor Statistics (BLS). This data tool allows us to consider how prices have fluctuated each month from 2019 to 2022. Electricity serves as a control, as its price did not change nearly as much as other goods and services. What can be seen through this figure is a gradual increase in price from this select few of everyday goods or services, especially from around July, 2020 to December, 2021. It's especially important to consider how typical goods like this are bought generally by many people across the country, and that these sorts of price increases add up over time.
+
+```{r BLS_CPI, echo=FALSE, fig.height = 7, fig.width = 10, fig.align="center"}
+
+CPI = read_csv("CPI.csv")
+
+CPI = rename(CPI, 'Item' = `Series ID`)
+
+CPI$Item = as.character(CPI$Item) 
+
+CPI2 = CPI %>% mutate(Item = recode(Item,
+                                    'APU0000703112' = "ground beef",
+                                    'APU0000708111' = "eggs",
+                                    'APU0000709112' = "milk",
+                                    'APU000072610' = "electricity",
+                                    'APU00007471A' = "gas"))
+
+
+month_levels = c(
+  "2019 Jan", "2019 Feb", "2019 Mar", "2019 Apr", "2019 May", "2019 Jun", 
+  "2019 Jul", "2019 Aug", "2019 Sep", "2019 Oct", "2019 Nov", "2019 Dec",
+  "2020 Jan", "2020 Feb", "2020 Mar", "2020 Apr", "2020 May", "2020 Jun", 
+  "2020 Jul", "2020 Aug", "2020 Sep", "2020 Oct", "2020 Nov", "2020 Dec",
+  "2021 Jan", "2021 Feb", "2021 Mar", "2021 Apr", "2021 May", "2021 Jun", 
+  "2021 Jul", "2021 Aug", "2021 Sep", "2021 Oct", "2021 Nov", "2021 Dec"
+)
+
+CPI2 <- CPI2 %>% 
+  dplyr::mutate(Label = factor(Label, levels = month_levels))
+
+CPI2_plot = CPI2 %>% ggplot(
+  data = filter(CPI2),
+  mapping = aes(x = Label, y = Value, color = Item, na.rm = TRUE)) + 
+  geom_line(aes(group = Item)) +
+  labs(title = "Price Changes in U.S. Basic Goods & Services, 2019-22", 
+       caption = "Source: U.S. Bureau Of Labor Statistics",
+       x = "Date",
+       y = "Average Price ($)",
+       color = 'Good/Service') +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.4, hjust= 1),
+        plot.title = element_text(hjust = 0.5), 
+        plot.caption = element_text(hjust = 0, face = "italic")) + 
+  scale_color_brewer(palette = "Set2") 
+
+ggplotly(CPI2_plot) %>% 
+  layout(xaxis = list(
+      rangeselector = list(
+        buttons = list(
+          list(
+            count = 3,
+            label = "3 mo",
+            step = "month",
+            stepmode = "backward"),
+          list(
+            count = 6,
+            label = "6 mo",
+            step = "month",
+            stepmode = "backward"),
+          list(
+            count = 1,
+            label = "1 yr",
+            step = "year",
+            stepmode = "backward"),
+          list(
+            count = 1,
+            label = "YTD",
+            step = "year",
+            stepmode = "todate"),
+          list(step = "all"))),
+    rangeslider = list(type = "date")))
+
+```
+
+## Monthly U.S. Poverty Rates, 2020-21
+
+Finally, using the "Columbia Monthly Poverty Tracker," data collected by the Columbia University Center on Poverty and Social Policy, we can attempt to understand the extent of how the American Rescue Plan (ARP), or the COVID-19 Stimulus Package, impacted poverty levels. This stimulus package, which included the beginnings of a series of stimulus checks that were given to certain eligible Americans, began to take effect in March of 2021. The effects can be seen immediately, as the poverty rate for those benefiting from COVID-19 relief dropped from [14.3%]{style="color:cornflowerblue"} to [9.3%]{style="color:cornflowerblue"} from February of 2021 to March.
+
+
+```{r poverty_tracker_plot, echo=FALSE, fig.height = 7, fig.width = 10, fig.align="center"}
+
+ptrack = read_csv("poverty.xlsx - Primary.csv")
+
+ptrack_long = ptrack %>%
+  pivot_longer(c(`With COVID Relief`, `Without COVID Relief`), 
+               names_to = "relief", 
+               values_to = "percent_relief")
+
+ptrack_long$percent_relief = as.numeric(ptrack_long$percent_relief)
+
+month_levels = c(
+  "2019 Jan", "2019 Feb", "2019 Mar", "2019 Apr", "2019 May", "2019 Jun", 
+  "2019 Jul", "2019 Aug", "2019 Sep", "2019 Oct", "2019 Nov", "2019 Dec",
+  "2020 Jan", "2020 Feb", "2020 Mar", "2020 Apr", "2020 May", "2020 Jun", 
+  "2020 Jul", "2020 Aug", "2020 Sep", "2020 Oct", "2020 Nov", "2020 Dec",
+  "2021 Jan", "2021 Feb", "2021 Mar", "2021 Apr", "2021 May", "2021 Jun", 
+  "2021 Jul", "2021 Aug", "2021 Sep", "2021 Oct", "2021 Nov", "2021 Dec"
+)
+
+ptrack_long <- ptrack_long %>% 
+  dplyr::mutate(month2 = factor(month2, levels = month_levels))
+
+ptrack_plot = ptrack_long %>% 
+  ggplot(mapping = aes(x = month2, y = percent_relief, color = relief, na.rm = TRUE)) +
+  geom_line(aes(group = relief, fill = relief)) +
+  labs(title = "Monthly U.S. Poverty Rates, 2020-21", 
+       caption = "Source: Source: Estimates from Columbia University Center on Poverty and Social Policy, 'Columbia Monthly Poverty Tracker'",
+       x = "Date",
+       y = "Percent in Poverty",
+       color = "Presence of ARP Relief") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1),
+        axis.text.y = element_text(vjust = 0.2, hjust= 0.5),
+        plot.title = element_text(hjust = 0.5), 
+        plot.caption = element_text(hjust = 0, face = "italic")) + 
+  scale_color_brewer(palette = "Accent") + 
+  scale_y_continuous(labels = function(y) paste0(y, '%'))
+
+ggplotly(ptrack_plot) %>% 
+  layout(xaxis = list(
+      rangeselector = list(
+        buttons = list(
+          list(
+            count = 3,
+            label = "3 mo",
+            step = "month",
+            stepmode = "backward"),
+          list(
+            count = 6,
+            label = "6 mo",
+            step = "month",
+            stepmode = "backward"),
+          list(
+            count = 1,
+            label = "1 yr",
+            step = "year",
+            stepmode = "backward"),
+          list(
+            count = 1,
+            label = "YTD",
+            step = "year",
+            stepmode = "todate"),
+          list(step = "all"))),
+    rangeslider = list(type = "date")))
+  
+
+```
+
+
+Though, overall, benefiting from the ARP cannot reliably be considered as an overall indicator of whether or not a person is below the poverty threshold due to the rather low value of R^2^ [(3.44)]{style="color:cornflowerblue"} in the linear regression model below, that doesn't mean the ARP was necessarily ineffective. Considering the drop in the poverty rate seen in the graph, it could be argued that the ARP may have actually been more generally effective had there been more stimulus checks. However, that is something that cannot technically be stated as definitive fact---more informed speculation from analyzing the data.
+
+
+```{r poverty_tracker_model, echo=FALSE, fig.height = 7, fig.width = 10}
+
+ptrack_m = lm(percent_relief ~ relief, data = ptrack_long)
+
+table_m = huxreg(ptrack_m) %>%
+  set_align(-1, 1, '.') %>%
+  theme_article() %>%
+  set_background_color(evens, everywhere, "white") %>%
+  set_background_color(odds, everywhere, "lavenderblush")
+
+table_m
+
+
+```
+
+## Conclusion
+
+Poverty is difficult to measure. According to the Institute For Research on Poverty from the University of Wisconsin-Madison, the origins of our current standardized poverty threshold is based on an official poverty measure (OPM) that compares income before taxes against a threshold that is set for what at three times the cost of a minimum food diet in 1963, adjusted for family size, generally costs. And so, given that the measure we use to determine poverty is, in itself, antiquated, it's difficult to see know just how many people are truly suffering from impoverishment across the United States.
+
+
+
+With this in mind, let's return to the question: [*in what ways has the average American fared over the course of this pandemic, and the financial crisis that ensued as a result?*]{style="color:cornflowerblue"} What we've seen is that, while thousands of more people are closer to what we consider the poverty threshold in 2020 compared to 2021, and while prices of general consumer goods and services appear to be on the rise, the solution to all this devastation may have been in front of us all along: The American Rescue Plan. As stated previously, the ARP significantly impacted the rate of poverty across the U.S. after it was passed. Of course, as months went by and benefits ran out, it's overall impact on the poverty rate began to fizzle out, causing it to be less effective overall. However, its immediate impacts are crucial, as it serves as proof that government spending on social benefits does positively effect people's lives.

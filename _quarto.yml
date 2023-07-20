@@ -18,18 +18,16 @@ website:
       - text: R Walkthrough
         menu:
         - href: map.qmd
-          text: Sample Mapping 
+          text: Mapping Tutorial
         - href: va_project.qmd
-          text: Sample Project 
-        - href: r_walkthrough.qmd
-          text: R Tutorial
+          text: Data Wrangling Tutorial
+        - href: dats2102_project.qmd
+          text: Data Visualization Project 
         
       - text: Articles
         menu: 
           - href: portfolio.qmd
             text: Published Archive 
-          - href: example_article.qmd
-            text: Example Breaking News Story
           - href: article1.qmd
             text: Sample Striketober Article
       - text: Writings
