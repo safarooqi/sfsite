@@ -15,14 +15,15 @@ website:
         text: Home
       - href: about.qmd
         text: About 
+        
       - text: R Walkthrough
         menu:
-        - href: map.qmd
-          text: Mapping Tutorial
-        - href: va_project.qmd
-          text: Data Wrangling Tutorial
-        - href: dats2102_project.qmd
-          text: Data Visualization Project
+          - href: map.qmd
+            text: Mapping Tutorial
+          - href: va_project.qmd
+            text: Data Wrangling Tutorial
+          - href: dats2102_project.qmd
+            text: Data Visualization Project
         
       - text: Articles
         menu: 
@@ -30,12 +31,13 @@ website:
             text: Published Archive 
           - href: article1.qmd
             text: Sample Striketober Article
+            
       - text: Writings
         menu:
-        - href: walkthrough.qmd
-          text: Sample Research Article
-        - href: essay1.qmd
-          text: Sample Essay
+          - href: walkthrough.qmd
+            text: Sample Research Article
+          - href: essay1.qmd
+            text: Sample Essay
           
       
 

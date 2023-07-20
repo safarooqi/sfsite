@@ -2,7 +2,7 @@
 title: "Samiha Farooqi"
 about:
   template: jolla
-  image: 682.JPG
+  image: DSC02245.jpg
   links:
     - icon: twitter
       text: twitter
